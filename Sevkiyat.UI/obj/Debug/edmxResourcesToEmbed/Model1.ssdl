@@ -1,0 +1,270 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="SevkiyatDBModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+  <EntityType Name="Drivers">
+    <Key>
+      <PropertyRef Name="ID" />
+    </Key>
+    <Property Name="ID" Type="uniqueidentifier" Nullable="false" />
+    <Property Name="TcNo" Type="char" MaxLength="11" Nullable="false" />
+    <Property Name="FirstName" Type="varchar" MaxLength="20" Nullable="false" />
+    <Property Name="LastName" Type="varchar" MaxLength="20" Nullable="false" />
+    <Property Name="BirthDate" Type="date" />
+    <Property Name="Phone" Type="char" MaxLength="10" Nullable="false" />
+    <Property Name="IsDeleted" Type="bit" />
+    <Property Name="IsActive" Type="bit" />
+  </EntityType>
+  <EntityType Name="Payers">
+    <Key>
+      <PropertyRef Name="ID" />
+    </Key>
+    <Property Name="ID" Type="uniqueidentifier" Nullable="false" />
+    <Property Name="CompanyName" Type="varchar" MaxLength="60" />
+    <Property Name="ContactName" Type="varchar" MaxLength="60" Nullable="false" />
+    <Property Name="Phone" Type="char" MaxLength="10" Nullable="false" />
+    <Property Name="City" Type="varchar" MaxLength="20" Nullable="false" />
+    <Property Name="TypeID" Type="tinyint" Nullable="false" />
+    <Property Name="Address" Type="varchar" MaxLength="500" Nullable="false" />
+    <Property Name="IsDeleted" Type="bit" />
+    <Property Name="IsActive" Type="bit" />
+  </EntityType>
+  <EntityType Name="Products">
+    <Key>
+      <PropertyRef Name="ID" />
+    </Key>
+    <Property Name="ID" Type="uniqueidentifier" Nullable="false" />
+    <Property Name="ProductName" Type="varchar" MaxLength="20" Nullable="false" />
+    <Property Name="ProductType" Type="tinyint" Nullable="false" />
+    <Property Name="Weigh" Type="int" Nullable="false" />
+    <Property Name="QuantityPerUnit" Type="smallint" Nullable="false" />
+    <Property Name="IsDeleted" Type="bit" />
+    <Property Name="IsActive" Type="bit" />
+  </EntityType>
+  <EntityType Name="Roles">
+    <Key>
+      <PropertyRef Name="ID" />
+    </Key>
+    <Property Name="ID" Type="uniqueidentifier" Nullable="false" />
+    <Property Name="RoleName" Type="varchar" MaxLength="30" Nullable="false" />
+  </EntityType>
+  <EntityType Name="sysdiagrams">
+    <Key>
+      <PropertyRef Name="diagram_id" />
+    </Key>
+    <Property Name="name" Type="nvarchar" MaxLength="128" Nullable="false" />
+    <Property Name="principal_id" Type="int" Nullable="false" />
+    <Property Name="diagram_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="version" Type="int" />
+    <Property Name="definition" Type="varbinary(max)" />
+  </EntityType>
+  <EntityType Name="UserRole">
+    <Key>
+      <PropertyRef Name="UserID" />
+      <PropertyRef Name="RoleID" />
+    </Key>
+    <Property Name="UserID" Type="uniqueidentifier" Nullable="false" />
+    <Property Name="RoleID" Type="uniqueidentifier" Nullable="false" />
+  </EntityType>
+  <EntityType Name="Users">
+    <Key>
+      <PropertyRef Name="ID" />
+    </Key>
+    <Property Name="ID" Type="uniqueidentifier" Nullable="false" />
+    <Property Name="UserName" Type="varchar" MaxLength="10" Nullable="false" />
+    <Property Name="Password" Type="varchar" MaxLength="50" Nullable="false" />
+    <Property Name="IsDeleted" Type="bit" />
+    <Property Name="IsActive" Type="bit" />
+  </EntityType>
+  <EntityType Name="Vehicles">
+    <Key>
+      <PropertyRef Name="ID" />
+    </Key>
+    <Property Name="ID" Type="uniqueidentifier" Nullable="false" />
+    <Property Name="Plate" Type="varchar" MaxLength="20" Nullable="false" />
+    <Property Name="Capacity" Type="int" Nullable="false" />
+    <Property Name="Brand" Type="varchar" MaxLength="30" />
+    <Property Name="Model" Type="varchar" MaxLength="30" />
+    <Property Name="IsDeleted" Type="bit" />
+    <Property Name="IsActive" Type="bit" />
+  </EntityType>
+  <EntityType Name="WayBillDetails">
+    <Key>
+      <PropertyRef Name="WaybillID" />
+      <PropertyRef Name="ProductID" />
+    </Key>
+    <Property Name="WaybillID" Type="uniqueidentifier" Nullable="false" />
+    <Property Name="ProductID" Type="uniqueidentifier" Nullable="false" />
+    <Property Name="Quantity" Type="smallint" Nullable="false" />
+    <Property Name="Description" Type="varchar" MaxLength="100" Nullable="false" />
+  </EntityType>
+  <EntityType Name="WayBills">
+    <Key>
+      <PropertyRef Name="ID" />
+    </Key>
+    <Property Name="ID" Type="uniqueidentifier" Nullable="false" />
+    <Property Name="DriverID" Type="uniqueidentifier" Nullable="false" />
+    <Property Name="VehicleID" Type="uniqueidentifier" Nullable="false" />
+    <Property Name="SenderID" Type="uniqueidentifier" Nullable="false" />
+    <Property Name="ReceiverID" Type="uniqueidentifier" Nullable="false" />
+    <Property Name="ShipmentDate" Type="datetime" Nullable="false" />
+    <Property Name="DeliveryDate" Type="datetime" />
+    <Property Name="BillType" Type="tinyint" Nullable="false" />
+    <Property Name="CreatedDate" Type="datetime" Nullable="false" />
+    <Property Name="CreatedUserID" Type="uniqueidentifier" Nullable="false" />
+  </EntityType>
+  <Association Name="FK_UserRole_Roles">
+    <End Role="Roles" Type="Self.Roles" Multiplicity="1" />
+    <End Role="UserRole" Type="Self.UserRole" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Roles">
+        <PropertyRef Name="ID" />
+      </Principal>
+      <Dependent Role="UserRole">
+        <PropertyRef Name="RoleID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_UserRole_Users">
+    <End Role="Users" Type="Self.Users" Multiplicity="1" />
+    <End Role="UserRole" Type="Self.UserRole" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Users">
+        <PropertyRef Name="ID" />
+      </Principal>
+      <Dependent Role="UserRole">
+        <PropertyRef Name="UserID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_WayBillDetails_Products">
+    <End Role="Products" Type="Self.Products" Multiplicity="1" />
+    <End Role="WayBillDetails" Type="Self.WayBillDetails" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Products">
+        <PropertyRef Name="ID" />
+      </Principal>
+      <Dependent Role="WayBillDetails">
+        <PropertyRef Name="ProductID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_WayBillDetails_WayBills">
+    <End Role="WayBills" Type="Self.WayBills" Multiplicity="1" />
+    <End Role="WayBillDetails" Type="Self.WayBillDetails" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="WayBills">
+        <PropertyRef Name="ID" />
+      </Principal>
+      <Dependent Role="WayBillDetails">
+        <PropertyRef Name="WaybillID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_WayBills_Drivers">
+    <End Role="Drivers" Type="Self.Drivers" Multiplicity="1" />
+    <End Role="WayBills" Type="Self.WayBills" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Drivers">
+        <PropertyRef Name="ID" />
+      </Principal>
+      <Dependent Role="WayBills">
+        <PropertyRef Name="DriverID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_WayBills_Payers">
+    <End Role="Payers" Type="Self.Payers" Multiplicity="1" />
+    <End Role="WayBills" Type="Self.WayBills" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Payers">
+        <PropertyRef Name="ID" />
+      </Principal>
+      <Dependent Role="WayBills">
+        <PropertyRef Name="SenderID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_WayBills_Payers1">
+    <End Role="Payers" Type="Self.Payers" Multiplicity="1" />
+    <End Role="WayBills" Type="Self.WayBills" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Payers">
+        <PropertyRef Name="ID" />
+      </Principal>
+      <Dependent Role="WayBills">
+        <PropertyRef Name="ReceiverID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_WayBills_Users">
+    <End Role="Users" Type="Self.Users" Multiplicity="1" />
+    <End Role="WayBills" Type="Self.WayBills" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Users">
+        <PropertyRef Name="ID" />
+      </Principal>
+      <Dependent Role="WayBills">
+        <PropertyRef Name="CreatedUserID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_WayBills_Vehicles">
+    <End Role="Vehicles" Type="Self.Vehicles" Multiplicity="1" />
+    <End Role="WayBills" Type="Self.WayBills" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Vehicles">
+        <PropertyRef Name="ID" />
+      </Principal>
+      <Dependent Role="WayBills">
+        <PropertyRef Name="VehicleID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityContainer Name="SevkiyatDBModelStoreContainer">
+    <EntitySet Name="Drivers" EntityType="Self.Drivers" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Payers" EntityType="Self.Payers" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Products" EntityType="Self.Products" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Roles" EntityType="Self.Roles" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagrams" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="UserRole" EntityType="Self.UserRole" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Users" EntityType="Self.Users" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Vehicles" EntityType="Self.Vehicles" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="WayBillDetails" EntityType="Self.WayBillDetails" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="WayBills" EntityType="Self.WayBills" Schema="dbo" store:Type="Tables" />
+    <AssociationSet Name="FK_UserRole_Roles" Association="Self.FK_UserRole_Roles">
+      <End Role="Roles" EntitySet="Roles" />
+      <End Role="UserRole" EntitySet="UserRole" />
+    </AssociationSet>
+    <AssociationSet Name="FK_UserRole_Users" Association="Self.FK_UserRole_Users">
+      <End Role="Users" EntitySet="Users" />
+      <End Role="UserRole" EntitySet="UserRole" />
+    </AssociationSet>
+    <AssociationSet Name="FK_WayBillDetails_Products" Association="Self.FK_WayBillDetails_Products">
+      <End Role="Products" EntitySet="Products" />
+      <End Role="WayBillDetails" EntitySet="WayBillDetails" />
+    </AssociationSet>
+    <AssociationSet Name="FK_WayBillDetails_WayBills" Association="Self.FK_WayBillDetails_WayBills">
+      <End Role="WayBills" EntitySet="WayBills" />
+      <End Role="WayBillDetails" EntitySet="WayBillDetails" />
+    </AssociationSet>
+    <AssociationSet Name="FK_WayBills_Drivers" Association="Self.FK_WayBills_Drivers">
+      <End Role="Drivers" EntitySet="Drivers" />
+      <End Role="WayBills" EntitySet="WayBills" />
+    </AssociationSet>
+    <AssociationSet Name="FK_WayBills_Payers" Association="Self.FK_WayBills_Payers">
+      <End Role="Payers" EntitySet="Payers" />
+      <End Role="WayBills" EntitySet="WayBills" />
+    </AssociationSet>
+    <AssociationSet Name="FK_WayBills_Payers1" Association="Self.FK_WayBills_Payers1">
+      <End Role="Payers" EntitySet="Payers" />
+      <End Role="WayBills" EntitySet="WayBills" />
+    </AssociationSet>
+    <AssociationSet Name="FK_WayBills_Users" Association="Self.FK_WayBills_Users">
+      <End Role="Users" EntitySet="Users" />
+      <End Role="WayBills" EntitySet="WayBills" />
+    </AssociationSet>
+    <AssociationSet Name="FK_WayBills_Vehicles" Association="Self.FK_WayBills_Vehicles">
+      <End Role="Vehicles" EntitySet="Vehicles" />
+      <End Role="WayBills" EntitySet="WayBills" />
+    </AssociationSet>
+  </EntityContainer>
+</Schema>
